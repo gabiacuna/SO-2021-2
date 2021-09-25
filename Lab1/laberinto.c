@@ -19,7 +19,6 @@ void main (){
     // // TODO Crear repo :3
 
     mkdir("./Laberinto", 0777);
-    
     char path_n1[] = "./Laberinto/x";
     char path_n2[] = "./Laberinto/x/y";
     char path_n3[] = "./Laberinto/x/y/z";
@@ -27,8 +26,6 @@ void main (){
     time_t t;
     srand((unsigned) time(&t));
     FILE *fp;
-
-    fp = fopen("./1", "w");
 
     int a,b,c;
     a = rand()%27;
@@ -72,62 +69,23 @@ void main (){
                     strcat(path_f, "/1.txt");
                     fp = fopen(path_f, "w");
                     fprintf(fp, "1, Los hurones del ");
-                    fclose(fp);
-                    printf(path_f);
-                } 
+                    fclose(fp);  
+                }
                 else if (pos[counter] == 2){
                     strcat(path_f, "/2.txt");
                     fp = fopen(path_f, "w");
                     fprintf(fp, "2, profesor de sistemas operativos son ");
                     fclose(fp);
-                    printf(path_f);
-
                 } 
                 else if (pos[counter] == 3){
                     strcat(path_f, "/3.txt");
                     fp = fopen(path_f, "w");
-                    fprintf(fp, "3, blanco por ahora");
+                    fprintf(fp, "3, blanco por ahora.");
                     fclose(fp);
-                    printf(path_f);
 
-                } 
-                counter += 1;
-                
-                
-            
-                // printf("%s\n",path_n3);
+                }   
+                counter += 1; 
             }          
-
         }
-        
-        
     }
-
-//     time_t t;
-//     srand((unsigned) time(&t));
-//     FILE *fp;
-
-//     fp = fopen("./1", "w");
-
-
-//     int a,b,c;
-//     a = 1 + rand()%3;
-//     b = 1 + rand()%3;
-//     c = 1 + rand()%3;
-
-
-//     char p1[3];
-//     p1[0] = a;  
-//     p1[1] = b;  
-//     p1[2] = c;  
-
-
-//     char s1[] = "./Laberinto/x/y/z/file1.txt";
-//     s1[12] = a + '0';
-//     s1[14] = b + '0';
-//     s1[16] = c + '0';
-//     printf("%s\n", s1);
-
-//     fp = fopen(s1, "w");
-//     fclose(fp);
 }
