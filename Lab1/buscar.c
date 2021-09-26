@@ -10,7 +10,7 @@
 void main(){
     char path_n3[] = "./Laberinto/x/y/z/frase.txt";
 
-    // TODO ver el len de estos str!
+    // TODO ver el len de estos str
     char frase_1[100];
     char frase_2[100];
     char frase_3[100];
