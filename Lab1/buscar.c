@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 
-void main(){
+int main(){
     char path_n3[] = "./Laberinto/x/y/z/frase.txt";
 
     // TODO ver el len de estos str
@@ -29,7 +29,7 @@ void main(){
                     // file exists
                     FILE *fp = fopen(path_n3, "r");
                     char line_temp[100];
-                    // printf("%s\n", fgets(line_temp, 50, fp));
+                    fgets(line_temp, 50, fp);
                     fclose(fp);
                     if (line_temp[0] == '1')
                     {
@@ -67,5 +67,5 @@ void main(){
     
 
     printf("%s%s%s\n", f1, f2, f3);
-    
+    return 0;
 }

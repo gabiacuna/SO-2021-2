@@ -6,17 +6,19 @@
 #include <time.h>
 
 void main(){
-    char * s = "aba";
-    char * t = "zzz";
+    // char * s = "aba";
+    // char * t = "zzz";
 
-    char * dc = strdup(s);
+    // char * dc = strdup(s);
 
-    strcpy(dc, s);
-    // strcat(t, "/frase.txt");
+    // strcpy(dc, s);
+    // // strcat(t, "/frase.txt");
 
 
-    printf("%s\n", s);
-    printf("%s\n", dc);
-    printf("%s\n", t);
-    free(dc);
+    // printf("%s\n", s);
+    // printf("%s\n", dc);
+    // printf("%s\n", t);
+    // free(dc);
+
+    rmdir("./Laberinto");
 }
