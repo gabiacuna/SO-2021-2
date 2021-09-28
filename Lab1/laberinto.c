@@ -13,7 +13,6 @@ int main (){
 
         printf("Ya existe un directorio llamado Laberinto, por favor eliminelo.\n");
         exit(EXIT_FAILURE);
-
     }
     //  Creacion de carpeta principal "Laberinto"
     mkdir("./Laberinto", 0777);
