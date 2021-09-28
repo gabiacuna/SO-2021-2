@@ -13,7 +13,6 @@ int main (){
 
         printf("Ya existe un directorio llamado Laberinto, por favor eliminelo.\n");
         exit(EXIT_FAILURE);
-
     }
     mkdir("./Laberinto", 0777);
     char path_n1[] = "./Laberinto/x";
