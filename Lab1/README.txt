@@ -6,6 +6,16 @@ El archivo para la primera seccion de la tarea, se llama laberinto.c y para la s
 
 - Se asume que en el directorio actual no existe una carpeta llamada 'Laberinto', si es así, el programa no se ejecutara.
 
-Las compilacion es a travez del comando 
+Cada archivo se compila por separado,
 
-make
+Para compilar y ejecutar laberinto.c:
+
+make Lab
+
+Para compilar y ejecutar buscar.c:
+
+make Bus
+
+Para borrar los ejecutables generados:
+
+make clean
