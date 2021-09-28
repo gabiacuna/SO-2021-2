@@ -8,7 +8,7 @@
 
 
 int main(){
-    // PATH a modificar para revisar si es archivo existe.
+    // PATH a modificar para revisar si es archivo existe. 
     char path_n3[] = "./Laberinto/x/y/z/frase.txt";
 
     
