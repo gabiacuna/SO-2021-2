@@ -8,26 +8,32 @@
 struct stat st = {0};
 
 int main (){
-
+    // Revision de existencia de carpeta Laberinto, si existe, el programa se detiene.
     if (stat("./Laberinto", &st) != -1) {
 
         printf("Ya existe un directorio llamado Laberinto, por favor eliminelo.\n");
         exit(EXIT_FAILURE);
 
     }
+    //  Creacion de carpeta principal "Laberinto"
     mkdir("./Laberinto", 0777);
+
+    // Creamos 
     char path_n1[] = "./Laberinto/x";
     char path_n2[25] = "./Laberinto/x/y";
     char path_n3[30] = "./Laberinto/x/y/z";
 
+    //  Creamos una variable de tiempo para que se generen distintos numeros random mas adelante
     time_t t;
-    srand((unsigned) time(&t));
+    srand((unsigned) time(&t)); // Randomizamos la semilla de la ejecucion.
 
+    // Inicializamos 3 numeros aleatorio que van del 0-26.
     int a,b,c;
     a = rand()%27;
     b = rand()%27;
     c = rand()%27;
 
+    // Nos aseguramos de que los 3 numeros sean distintos. 
     while (a == b || a == c || b == c)
     {
         a = rand()%27;
@@ -36,6 +42,8 @@ int main (){
     }
     
     int counter = 0;
+
+    // Eleguimos al azar las posiciones de las frases
     int* pos = (int*)calloc(30, sizeof(int));
     pos[a] = 1;
     pos[b] = 2;

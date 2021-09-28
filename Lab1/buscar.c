@@ -8,13 +8,15 @@
 
 
 int main(){
+    // PATH a modificar para revisar si es archivo existe.
     char path_n3[] = "./Laberinto/x/y/z/frase.txt";
 
-    // // TODO ver el len de estos str
+    
     char frase_1[22];
     char frase_2[40];
     char frase_3[40];
 
+    // Ingresamos a todos los nodos externos del arbol.
     for (int i = 1; i < 4; i++)
     {
         path_n3[12] = i + '0';
@@ -24,13 +26,14 @@ int main(){
             for (int k = 1; k < 4; k++)
             {
                 path_n3[16] = k + '0';
-                // printf("%s : %d\n", path_n3,access( path_n3, R_OK ));
+                // Revisamos si el nodo externo tiene alguno de los 3 archivos
                 if( access( path_n3, R_OK ) == 0 ) {
-                    // file exists
+                    // Si existe, leemos el archivo y extraemos el string.
                     FILE *fp = fopen(path_n3, "r");
                     char line_temp[55];
                     fgets(line_temp, 50, fp);
                     fclose(fp);
+                    // Analizamos el primero char de cada string, para ver si es la frase 1,2 o 3, para guardarla en su correspondiente variable.
                     if (line_temp[0] == '1')
                     {
                         strcpy(frase_1, line_temp);
@@ -49,6 +52,7 @@ int main(){
         
     }
     
+    // Movemos el puntero header del string para saltarse el "1, "/
     char* f1;
     char* f2;
     char* f3;
@@ -64,6 +68,7 @@ int main(){
         f3++;
     }
     
+    // Imprmimos las 3 frases en conjunto y ordenadas
     printf("%s%s%s\n", f1, f2, f3);
     return 0;
 }
