@@ -17,6 +17,7 @@ int main()
     //Entramos al proceso Padre
     if (x > 0)
     {
+        printf("B\n");
         close(pipe_ph[0]); // cierro el modo de Lectura del padre al hijo
         close(pipe_hp[1]); // cierro el modo de Escritura del hijo al padre
 
@@ -32,6 +33,8 @@ int main()
     //Entramos al proceso Hijo
     else if (x == 0)
     {
+
+        printf("A\n");
         close(pipe_ph[1]); // cierro el modo de Escritura del padre al hijo
         close(pipe_hp[0]); // cierro el modo de Lectura del hijo al padre
 
