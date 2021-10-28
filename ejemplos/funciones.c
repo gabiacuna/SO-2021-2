@@ -1,20 +1,8 @@
-#define _XOPEN_SOURCE
-#include <ncurses.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <time.h>
-#include <signal.h>
-#include <sys/wait.h>
+#include "header.h"
 
-int a;
 void handleContinueSignal(int sig) {
     a = 1; // Or some other handling code
 }
-
-int tab[] = {100, 50, 50, -25, -2, 50, -25, 2, +75, -50, -50, +75, +75, -3, 1,3,50,-4,50,-50,-25,2,75,5,75,-4,-25,-75};
-
 
 void movTab(int pos_ant, int av, int i){
     // i = 0, es el jugador, i = 1 y 2 son C1 y C2
@@ -123,7 +111,28 @@ void mostrar(char * str){
     refresh();
 }
 
-// TODO cambiar los prints por mostrar!!!
+void turnoAct(int i){
+    mvaddstr(20,150,"----------------");
+    mvaddstr(21,150,"|>Turno actual<|");
+    if(i==0){
+        mvaddstr(22,150,"    Jugador 1   ");
+    }
+    else if(i==1){
+        mvaddstr(22,150,"  Computador 1  ");   
+    }
+    else if(i==2){
+        mvaddstr(22,150,"  Computador 2  ");   
+    }
+    mvaddstr(23,150,"----------------");
+}
+
+void avanzeAct(int ava){
+    char avance[5];
+    sprintf(avance, "%d", ava);
+    mvaddstr(24,150,"|>Avanza<|");
+    mvaddstr(25,150,avance);
+    mvaddstr(26,150,"----------------");
+}
 
 void jugada(int *pos, int *score, int *jail, int avance, int jugador){
     
@@ -142,13 +151,13 @@ void jugada(int *pos, int *score, int *jail, int avance, int jugador){
     // 5 "
 
     if(valor == -2 || valor == -3 || valor == -4){
-        printf("retrocede %d posiciones \n", valor);
+        // printf("retrocede %d posiciones \n", valor);
         pos[jugador] += valor;
         score[jugador] += tab[pos[jugador]%27];
         avance = valor;
     }
     else if (valor == 3 || valor == 5){
-        printf("avanza %d posiciones \n", valor);
+        // printf("avanza %d posiciones \n", valor);
         pos[jugador] += valor;
         score[jugador] += tab[pos[jugador]%27];
         avance = valor;
@@ -157,17 +166,19 @@ void jugada(int *pos, int *score, int *jail, int avance, int jugador){
         return;
     }
     else if(valor == 2){
-        printf("Caiste en la carcel!, perderas el siguiente turno!\n");
+        // printf("Caiste en la carcel!, perderas el siguiente turno!\n");
         jail[jugador] = 1;
     }
     else{
         score[jugador] += tab[pos[jugador]%27];
     }
 
+    turnoAct(jugador);
     movTab(pos_ant, avance, jugador);
+    avanzeAct(avance);
 
     if(pos[jugador] >= 27){
-      printf("Pasa por start!, ganas 100\n");
+    //   printf("Pasa por start!, ganas 100\n");
       pos[jugador] %= 27; 
     }
 

@@ -4,8 +4,6 @@
 #include <time.h>
 #include <signal.h>
 #include <sys/wait.h>
-#include <errno.h>
-
 int a;
 void handleContinueSignal(int sig) {
     a = 1; // Or some other handling code
@@ -16,7 +14,50 @@ int dados(){
     return numero;
 }
 
+int tab[] = {100, 50, 50, -25, -2, 50, -25, 2, +75, -50, -50, +75, +75, -3, 1,3,50,-4,50,-50,-25,2,75,5,75,-4,-25,-75};
 
+void jugada(int *pos, int *score, int *jail, int avance, int jugador){
+    
+    pos[jugador] += avance;
+    
+
+    
+    int valor = tab[pos[jugador]%27];
+    
+    // 1 Free
+    // 2 jail
+    // -2 Back 2 
+    // -3 "
+    // -4 "
+    // 3 Forward 3
+    // 5 "
+
+    if(valor == -2 || valor == -3 || valor == -4){
+        printf("retrocede %d posiciones \n", valor);
+        pos[jugador] += valor;
+        score[jugador] += tab[pos[jugador]%27];
+    }
+    else if (valor == 3 || valor == 5){
+        printf("avanza %d posiciones \n", valor);
+        pos[jugador] += valor;
+        score[jugador] += tab[pos[jugador]%27];
+    }
+    else if (valor == 1){
+        return;
+    }
+    else if(valor == 2){
+        printf("Caiste en la carcel!, perderas el siguiente turno!\n");
+        jail[jugador] = 1;
+    }
+    else{
+        score[jugador] += tab[pos[jugador]%27];
+    }
+
+    if(pos[jugador] >= 27){
+      printf("Pasa por start!, ganas 100\n");
+      pos[jugador] %= 27; 
+    }
+}
 // 0 start
 // 1 Free
 // 2 Jail
@@ -28,7 +69,6 @@ int dados(){
 
 // Pos de 0 a 27
 
-int tab[] = {100, 50, 50, -25, -2, 50, -25, 2, +75, -50, -50, +75, +75, -3, 1,3,50,-4,50,-50,-25,2,75,5,75,-4,-25,-75};
 
 int main()
 {
@@ -76,6 +116,7 @@ int main()
             // write(pipe_hp[1], &avance, sizeof(int)); // Mensaje puesto en la PIPE del hijo al padre
             
             // Jugar
+            jugada(pos, score, jail, avance, i);
             
             signal(SIGCONT, handleContinueSignal);
             pause();
@@ -118,12 +159,13 @@ int main()
             for (int j = 0; j < 3; j++)
             {
                 if (jail[j] == 1){
+                    printf("Estas en la carcel! pierdes el turno \n");
                     jail[j] = 0;
                 }
                 else{
                     sleep(1);
-                    pipe(pipe_ph);
-                    pipe(pipe_hp[j]);
+                    // pipe(pipe_ph);
+                    // pipe(pipe_hp[j]);
 
                     kill(pids[j], SIGCONT); // Unpause
                     waitpid(-pids[j], NULL, WUNTRACED);
@@ -135,8 +177,8 @@ int main()
 
                     // printf("\nVuelve, pids[%d] = %d\n",j,  pids[j]);
                     
-                    close(pipe_ph[0]); // cierro el modo de Lectura del padre al hijo
-                    close(pipe_hp[j][1]); // cierro el modo de Escritura del hijo al padre
+                    // close(pipe_ph[0]); // cierro el modo de Lectura del padre al hijo
+                    // close(pipe_hp[j][1]); // cierro el modo de Escritura del hijo al padre
                     int avance = 0;
 
                     // while ((read(pipe_hp[j][0],  &avance, sizeof(int))) < 0)
@@ -145,51 +187,46 @@ int main()
                     //   sleep(1);
                     // }; //espero por la respuesta
 
-                    sleep(1);
-                    if (signal(SIGPIPE, SIG_IGN) == SIG_ERR)
-                        perror("signal");                                        
+                    sleep(1);                                        
                     while (read(pipe_hp[j][0],  &avance, sizeof(int)) < 0){
-                        if (errno == EPIPE) {
-                            printf("xxx Pipe cerrada\n");
-                        }
+
                     };
 
                     // printf("--- output read : %d , j = %d\n", res2, j);
 
-                    printf("\n Avance: %d \n", avance);
-
-                    pos[j] += avance;
-                    int valor = tab[pos[j]%27];
+                    // pos[j] += avance;
+                    // int valor = tab[pos[j]%27];
                     
-                    // 1 Free
-                    // 2 Jail
-                    // -2 Back 2 
-                    // -3 "
-                    // -4 "
-                    // 3 Forward 3
-                    // 5 "
-                    if(valor == -2 || valor == -3 || valor == -4){
-                        printf("retrocede %d posiciones \n", valor);
-                        pos[j] += valor;
-                        score[j] += tab[pos[j]%27];
-                    }
-                    else if (valor == 3 || valor == 5){
-                         printf("avanza %d posiciones \n", valor);
-                        pos[j] += valor;
-                        score[j] += tab[pos[j]%27];
-                    }
-                    else if (valor == 1){
-                        continue;
-                    }
-                    else if(valor == 2){
-                        jail[j] = 1;
-                    }
-                    else{
-                        pos[j] += avance;
-                        score[j] += tab[pos[j]%27];
-                    }
+                    // // 1 Free
+                    // // 2 Jail
+                    // // -2 Back 2 
+                    // // -3 "
+                    // // -4 "
+                    // // 3 Forward 3
+                    // // 5 "
+                    // if(valor == -2 || valor == -3 || valor == -4){
+                    //     printf("retrocede %d posiciones \n", valor);
+                    //     pos[j] += valor;
+                    //     score[j] += tab[pos[j]%27];
+                    // }
+                    // else if (valor == 3 || valor == 5){
+                    //     printf("avanza %d posiciones \n", valor);
+                    //     pos[j] += valor;
+                    //     score[j] += tab[pos[j]%27];
+                    // }
+                    // else if (valor == 1){
+                    //     continue;
+                    // }
+                    // else if(valor == 2){
+                    //     jail[j] = 1;
+                    // }
+                    // else{
+                    //     score[j] += tab[pos[j]%27];
+                    // }
+                    jugada(pos, score, jail, avance, j);
+
                     sleep(1);
-                    printf("pids[%d] = %d\n", j, pids[j]);
+                    
                     printf("pos[%d] = %d\n", j, pos[j]);
                     printf("score[%d] = %d\n", j, score[j]);
                 }
@@ -203,8 +240,8 @@ int main()
 
             int pid_act = getpid();
 
-            close(pipe_ph[1]); // cierro el modo de Escritura del padre al hijo
-            close(pipe_hp[i][0]); // cierro el modo de Lectura del hijo al padre
+            // close(pipe_ph[1]); // cierro el modo de Escritura del padre al hijo
+            // close(pipe_hp[i][0]); // cierro el modo de Lectura del hijo al padre
 
             int avance = 0;
             // printf("\n\n pid_act = %d\n\n", pid_act);
@@ -225,7 +262,7 @@ int main()
             
             int res = write(pipe_hp[i][1], &avance, sizeof(int)); // Mensaje puesto en la PIPE del hijo al padre
 
-            printf("--- output de write : %d, pid = %d\n", res, getpid());
+            // printf("--- output de write : %d, pid = %d\n", res, getpid());
 
             pause();
         }
