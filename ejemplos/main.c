@@ -29,24 +29,25 @@ void movTab(int pos_ant, int av, int i){
         posTab[i][0] -= 6*pos_ant;
         posTab[i][1] = 7;
     }
-    else if(pos_ant > 7 && pos_ant < 14){
+    if(pos_ant > 7 && pos_ant < 14){
         posTab[i][0] = 1+i;
         posTab[i][1] += 14*(pos_ant%7);
     }
-    else if(pos_ant == 14){
+    if(pos_ant == 14){
         posTab[i][0] = 1+i;
         posTab[i][1] = 105;
     }
-    else if(pos_ant > 14 && pos_ant <= 21){
+    if(pos_ant > 14 && pos_ant <= 21){
         posTab[i][1] = 105;
         posTab[i][0] = i + 1 + 6*(pos_ant%14);
     }
-    else if(pos_ant > 21){
+    if(pos_ant > 21){
         posTab[i][0] = 43 + i ;
         posTab[i][1] = 100 - 14*(pos_ant%21);
     }
 
     mvaddstr(posTab[i][0], posTab[i][1],  "  ");
+    sleep(1);
     refresh();
     int posTabNew[3][2] = {{43, 7},{44, 7},{45, 7}};
 
@@ -73,7 +74,7 @@ void movTab(int pos_ant, int av, int i){
 
     if (i == 0)
     {
-        mvaddstr(posTabNew[i][0], posTabNew[i][1],  "P");
+        mvaddstr(posTabNew[i][0], posTabNew[i][1],  "J");
     } else if (i == 1)
     {
         mvaddstr(posTabNew[i][0], posTabNew[i][1],  "C1");
@@ -174,18 +175,17 @@ void dadoAct(int dad){
 
 void jugada(int *pos, int *score, int *jail, int dado, int jugador){
     
-    int pos_ant = pos[jugador] - 0;
+    int pos_ant = pos[jugador];
     pos[jugador] += dado;
     int avance = dado;
     
-    int valor = tab[pos[jugador]%28];
 
     if(pos[jugador] >= 28){
-    //   printf("Pasa por start!, ganas 100\n");
       pos[jugador] %= 28; 
       score[jugador] += 100;
     }
     
+    int valor = tab[pos[jugador]];
     // 1 Free
     // 2 jail
     // -2 Back 2 
@@ -193,20 +193,16 @@ void jugada(int *pos, int *score, int *jail, int dado, int jugador){
     // -4 "
     // 3 Forward 3
     // 5 "
+    
+    while(valor == -2 || valor == -3 || valor == -4 || valor == 3 || valor == 5){
 
-    if(valor == -2 || valor == -3 || valor == -4){
-        // printf("retrocede %d posiciones \n", valor);
         pos[jugador] += valor;
-        score[jugador] += tab[pos[jugador]%28];
+        pos[jugador] %= 28;
         avance += valor;
+        valor = tab[pos[jugador]];
     }
-    else if (valor == 3 || valor == 5){
-        // printf("avanza %d posiciones \n", valor);
-        pos[jugador] += valor;
-        score[jugador] += tab[pos[jugador]%28];
-        avance += valor;
-    }
-    else if (valor == 1){
+    
+    if (valor == 1){
         return;
     }
     else if(valor == 2){
@@ -217,7 +213,7 @@ void jugada(int *pos, int *score, int *jail, int dado, int jugador){
     }
 
     turnoAct(jugador);
-    movTab(pos[jugador] - avance, avance, jugador);
+    movTab(pos_ant, avance, jugador);
     dadoAct(dado);
     avanceAct(avance);
     puntajes(score[0], score[1], score[2]);
@@ -314,7 +310,7 @@ int main()
     int jail[] = {0,0,0};
     int i = 0, x, avance, ppid;
     int pids[3];
-    int score[3] ={100,100,100};
+    int score[3] ={100,100,100};//
     int pos[3] ={0,0,0};
     ppid = getpid();
 
@@ -348,8 +344,6 @@ int main()
                 
             }
 
-
-            
             // Jugar
             signal(SIGCONT, handleContinueSignal);
             pause();
@@ -358,7 +352,6 @@ int main()
         else if (x > 0)
         {
             close(pipe_ph[0]); // cierro el modo de Lectura del padre al hijo
-            
             close(pipe_hp[i][1]);
             while ((read(pipe_hp[i][0],  &avance, sizeof(int))) < 0)
             {
@@ -366,56 +359,41 @@ int main()
             pids[i] = x;
 
             jugada(pos, score, jail, avance, i);
-            sleep(2);
+            sleep(1);
         }
         i++;
     }
 
-    while(score[0]<=500 && score[1]<=500 && score[2]<=500){
+    int flag = 1;
+    int j; // Jugador actual
+    while(flag){
     //   Padre
-        // int pipe_hp2[2];
-        sleep(1);
         if(getpid() == ppid){
             sleep(1);
-            for (int j = 0; j < 3; j++)
+            for (j = 0; j < 3; j++)
             {
                 if (jail[j] == 1){
-                    mostrar("Esta en la carcel!");
+                    mostrarInt("Esta en la carcel! %d", j);
                     jail[j] = 0;
-                    sleep(3);
-                    mostrar("                  ");
+                    sleep(2);
                 }
                 else{
-                    sleep(1);
-                    // pipe(pipe_ph);
-                    // pipe(pipe_hp[j]);
+                    if(j == 0){
+                        mostrar("Presione ENTER para jugar");
+                    }
+                    else{
+                        mostrar("Espera tu turno...");
+
+                    }
 
                     kill(pids[j], SIGCONT); // Unpause
                     waitpid(-pids[j], NULL, WUNTRACED);
-                    // if(j == 0){
-                    //     kill(pids[j], SIGCONT); // Unpause
-                    //     waitpid(-pids[j], NULL, WUNTRACED);
-                    // } 
 
-                    
-                    // close(pipe_ph[0]); // cierro el modo de Lectura del padre al hijo
-                    // close(pipe_hp[j][1]); // cierro el modo de Escritura del hijo al padre
                     int avance = 0;
 
-                    
-
-                                                            
-                    // sleep(1);
-                    // char av[10];
-                    // sprintf(av, "AP: %d", avance);
-                    // mostrar(av);
                     sleep(1);
                     while (read(pipe_hp[j][0],  &avance, sizeof(int)) < 0){
                     }
-                    // sprintf(av, "AP: %d", avance);
-                    // mostrar(av);
-                    pos[j] += avance;
-                    int valor = tab[pos[j]%27];
                     
                     // 1 Free
                     // 2 Jail
@@ -424,10 +402,13 @@ int main()
                     // -4 "
                     // 3 Forward 3
                     // 5 "
-                    
                     jugada(pos, score, jail, avance, j);
 
-                    sleep(1);
+                    // sleep(1);
+                    if(score[j] >= 500){
+                        flag = 0;
+                        break;
+                    }
     
                 }
             }
@@ -435,7 +416,7 @@ int main()
         // Hijo
         } else {
 
-            sleep(2);
+            sleep(1);
             time_t t;
             srand((int)time(&t) % getpid());
 
@@ -444,8 +425,8 @@ int main()
             int avance = 0;
 
             if(i == 0){
+                getch();
                 avance = (rand()%6)+1;
-                // getch();
                 // mostrarInt("AH: %d",5);
                 // pause();               
                 // mostrarInt("AH: %d",5);
@@ -459,16 +440,25 @@ int main()
         }
     }
 
+    if(j==0){
+        mostrar("Felicitaciones eres el Ganador!");
+    }else if (j == 1){
+        mostrar("Gano el Computador 1!");
+    }else if (j == 2){
+        mostrar("Gano el Computador 2!");
+    }
 
+    sleep(10);
 
-    getch();
+    // cerrar los procesos:
+
+    for(int n = 0; n<3 ;n++){
+        kill(pids[n], SIGKILL);
+    }
+
     endwin(); // end curses mode
     delscreen(s);
     refresh();
-
-
-
-
     return 0;
 }
 
