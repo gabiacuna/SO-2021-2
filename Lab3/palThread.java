@@ -3,7 +3,16 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class palThread extends Thread {
-    public void run(long start) {
+    
+    static long inicio;
+    static long fin;
+
+    public palThread(long i){
+        super();
+        inicio = i;
+    }
+
+    public void run() {
         try {
             File myObj = new File("palabras.txt");
             Scanner myReader = new Scanner(myObj);
@@ -15,8 +24,8 @@ public class palThread extends Thread {
                 if (palabra.equals("eiffel")) {
                   System.out.println(palabra);
                   myReader.close();
-                  long end = System.currentTimeMillis();
-                  System.out.printf("pals time : %d\n", end-start);
+                  fin = System.currentTimeMillis();
+                  System.out.printf("pals time : %d\n", fin-inicio);
                   return;
                 }
               }
@@ -30,9 +39,8 @@ public class palThread extends Thread {
     }
 
     public static void main(String[] args) {
-        palThread h1 = new palThread();
         long start = System.currentTimeMillis();
+        palThread h1 = new palThread(start);
         h1.start();
-        h1.run(start);
     }
 }

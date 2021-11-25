@@ -3,7 +3,17 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class numThread extends Thread {
-    public void run(long start) {
+
+    static long inicio;
+    static long fin;
+
+    public numThread(long i){
+        super();
+        inicio = i;
+    }
+
+    @Override
+    public void run() {
         int [] numeros = new int[1024];
 
         try {
@@ -32,18 +42,19 @@ public class numThread extends Thread {
             for (int i = 0; i < numeros.length; i++)
                 for (int j = i + 1; j < numeros.length; j++)
                     if ((numeros[i] + numeros[j]) == 65){
-                        long end = System.currentTimeMillis();
-                        System.out.printf("num time : %d\n", end-start);
+                        fin = System.currentTimeMillis();
+                        System.out.printf("num time : %d\n", fin-inicio);
                         return;
                     }
         }
     }
 
     public static void main(String[] args) {
-        palThread h1 = new palThread();
-        numThread h2 = new numThread();
-
         long start_time = System.currentTimeMillis();
+
+        palThread h1 = new palThread(start_time);
+        numThread h2 = new numThread(start_time);
+
         h1.start();
         h2.start();
         // h1.run(start);
