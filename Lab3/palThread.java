@@ -7,15 +7,18 @@ public class palThread extends Thread {
     static long inicio;
     static long fin;
 
+    // Contructor de palThread, recibe el tiempo de inicio de ejecucion.
     public palThread(long i){
         super();
         inicio = i;
     }
 
+    //  Imprime el tiempo de ejecucion 
     public void printTime() {
         System.out.printf("pal time : %d\n", fin-inicio);
     }
 
+    //  Para la ejecución, recorremos todas las palabras de txt, fila por fila, y cuando encontremos "eiffel", imprimimos la palabra, y cerramos los archivos y retornamos.
     public void run() {
         try {
             File myObj = new File("palabras.txt");
@@ -41,6 +44,7 @@ public class palThread extends Thread {
             }
     }
 
+    // Main de prueba para palThreads.
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         palThread h1 = new palThread(start);

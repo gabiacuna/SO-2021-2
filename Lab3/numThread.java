@@ -7,15 +7,19 @@ public class numThread extends Thread {
     static long inicio;
     static long fin;
 
+    // Constructor de numThread, recibe el tiempo de inicio de la ejecucion como parametro.
     public numThread(long i){
         super();
         inicio = i;
     }
 
+    //  Metodo para imprimir el tiempo de ejecucion total
     public void printTime() {
         System.out.printf("num time : %d\n", fin-inicio);
     }
 
+    // Para la ejecucion, primero creamos una lista de todos los numeros en "numeros.txt", y luego vemos cada par posible de estos, revisando desde la posicion actual hasta el final del arreglo
+    // se termina el programa cuando encuentre un par de numeros, no necesariamente consecutivos, los cuale sumen 65, se imprimira este par.
     @Override
     public void run() {
         int [] numeros = new int[1024];
@@ -51,6 +55,7 @@ public class numThread extends Thread {
         }
     }
 
+    // Main de prueba, corre solo este thread
     public static void main(String[] args) {
         long start_time = System.currentTimeMillis();
         numThread h2 = new numThread(start_time);
