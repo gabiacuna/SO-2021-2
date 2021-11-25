@@ -42,6 +42,7 @@ public class numThread extends Thread {
             for (int i = 0; i < numeros.length; i++)
                 for (int j = i + 1; j < numeros.length; j++)
                     if ((numeros[i] + numeros[j]) == 65){
+                        System.out.printf("%d %d", numeros[i], numeros[j]);
                         fin = System.currentTimeMillis();
                         System.out.printf("num time : %d\n", fin-inicio);
                         return;
@@ -54,9 +55,11 @@ public class numThread extends Thread {
 
         palThread h1 = new palThread(start_time);
         numThread h2 = new numThread(start_time);
+        morse h3 = new morse(start_time);
 
         h1.start();
         h2.start();
+        h3.start();
         // h1.run(start);
         // h2.run(start);
     }
