@@ -7,11 +7,23 @@ public class morseThread extends Thread {
     static long inicio;
     static long fin;
     static String palabraf;
+    String abc = "A .-_N -._B -..._Ñ --.--_C -.-._O ---_P .--._D -.._Q --.-_E ._R .-._F ..-._S ..._G --._T -_H ...._U ..-_I .._V ...-_J .---_W .--_K -.-_X -..-_L .-.._Y -.--_M --_Z --..";
+    static Hashtable<String, String> my_dict;
 
     public morseThread(long i){     // Constructor de morseThread, recibe el tiempo en milisegundos en el que partio la ejecucion.
         super();
         inicio = i;
         palabraf = "";              // Acá guardaremos la palabra final.
+
+        // Traspasamos del abc en str a un diccionario, para acceder facilmente a los significados.
+        my_dict = new Hashtable<String, String>();
+
+            String[] abc_list = abc.split("_");
+            for (String par : abc_list) {
+                String[] m = par.split(" ");
+                my_dict.put(m[1], m[0]);
+            }
+            
     }
 
     public void printTime() {       // Metodo para imprimir el tiempo de ejecucion de la hebra.
@@ -23,17 +35,6 @@ public class morseThread extends Thread {
     @Override
     public void run() {
         try {
-            
-            // Creacion del dict
-            File trad = new File("morseabc.txt");
-            Scanner text = new Scanner(trad);
-            Hashtable<String, String> my_dict = new Hashtable<String, String>();
-            while (text.hasNextLine()) {
-                String data = text.nextLine();
-                String[] m = data.split(" ");
-                    my_dict.put(m[1], m[0]);
-              }
-            text.close();
 
             // Recorremos morse.txt, traduciendo cada letra en la fila, concatenando estas, y cuando termine de leer dicha fila, le agregamos un espacio para separar las palabras.
             File myObj = new File("morse.txt");
@@ -57,7 +58,6 @@ public class morseThread extends Thread {
                 e.printStackTrace();
             } finally {
                 fin = System.currentTimeMillis();
-
             }
     }
 
