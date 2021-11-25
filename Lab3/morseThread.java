@@ -3,15 +3,19 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
 
-public class morse extends Thread {
+public class morseThread extends Thread {
     static long inicio;
     static long fin;
     static String palabraf;
 
-    public morse(long i){
+    public morseThread(long i){
         super();
         inicio = i;
         palabraf = "";
+    }
+
+    public void printTime() {
+        System.out.printf("morse time : %d\n", fin-inicio);
     }
 
     public void run() {
@@ -26,6 +30,7 @@ public class morse extends Thread {
                     // System.out.printf("Key: %s,   val: %s\n", m[1], m[0]);
                     my_dict.put(m[1], m[0]);
               }
+            text.close();
 
 
             File myObj = new File("morse.txt");
@@ -40,21 +45,22 @@ public class morse extends Thread {
                 }
                 palabraf += " ";
             }
-            System.out.println(palabraf);
-            fin = System.currentTimeMillis();
             myReader.close();
 
-            System.out.printf("morse time : %d\n", fin-inicio);
+            System.out.println(palabraf);
 
             } catch (FileNotFoundException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
+            } finally {
+                fin = System.currentTimeMillis();
+
             }
     }
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        morse h1 = new morse(start);
+        morseThread h1 = new morseThread(start);
         h1.start();
     }
 }

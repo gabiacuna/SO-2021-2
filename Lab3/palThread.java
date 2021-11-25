@@ -12,6 +12,10 @@ public class palThread extends Thread {
         inicio = i;
     }
 
+    public void printTime() {
+        System.out.printf("pal time : %d\n", fin-inicio);
+    }
+
     public void run() {
         try {
             File myObj = new File("palabras.txt");
@@ -25,7 +29,6 @@ public class palThread extends Thread {
                   System.out.println(palabra);
                   myReader.close();
                   fin = System.currentTimeMillis();
-                  System.out.printf("pals time : %d\n", fin-inicio);
                   return;
                 }
               }
