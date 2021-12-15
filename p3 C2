@@ -1,0 +1,78 @@
+
+Hurón {
+	private:
+		Lock lockC;
+		Lock lockD;
+		Semaphore sC = 0;	// Semaforo para comer
+		Semaphore sD = 0;	// Semaforo para dormir
+		Semaphore sV = 1;	// Semaforo para vivir y molestar
+		int comiendo = 0;
+		int durmiendo = 0;
+	public:
+		Hurón();
+		void ViviryMolestar();
+		void Comer();
+		void Dormir();
+
+	wait(sV);
+	ViviryMolestar();
+	signal(sV);
+
+	wait(sC);
+	Comer();
+	signal(sC);
+
+	wait(sV);
+	ViviryMolestar();
+	signal(sV);
+	
+	wait(sD);
+	Dormir();
+	signal(sD);
+	}
+
+Hurón:Hurón (){
+	int comiendo = 0;
+	int durmiendo = 0;
+	int max_c = 4;
+}
+
+Hurón::ViviryMolestar(){
+	wait(sV);
+	// Vivir y Molestar
+	signal(sV);
+}
+
+Hurón::Comer(){
+	wait(sV);	// Espera a que termine de vivir
+	wait(sC);
+	if (comiendo == max_c){
+		comiendo--;
+		signal(sC);	// Terminar de comer
+		ViviryMolestar();
+	}
+	lockC.aquire();
+	comiendo ++;
+	lockC.release();
+	signal(sC);
+	
+	signal(sV);	// Para que viva después de comer
+}
+
+Hurón::Dormir(){
+	wait(sV);	// Espera a que termine de vivir
+	wait(sD);
+	if (durmiendo == 1){
+		durmiendo --;
+		signal(sD);
+		ViviryMolestar();
+	}
+	lockD.aquire();
+	durmiendo ++;
+	lockD.release();
+	signal(sD);
+	
+	signal(sV);	// Para que viva después de dormir
+}
+
+

@@ -4,7 +4,6 @@
 #include <time.h>
 
 
-{1,3,50,-4,50,-50,-25,2,75,5,75,-4,-25,-75}
 int dados(){
     int numero = (rand()%6)+1; 
     return numero;
