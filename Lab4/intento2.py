@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
 
 def mr_juego(cv):
-    logging.debug('mr_juego thread started ...')
+    logging.debug('mr_juego thread started ...')    
     print(fila['mr'])
     with cv:
         logging.debug('mr_juego waiting ...')
