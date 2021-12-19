@@ -1,0 +1,70 @@
+Thread-1 creada
+Thread-1 en fila
+Thread-2 creada
+Thread-2 en fila
+Thread-3 creada
+Thread-3 en fila
+Thread-4 creada
+Thread-4 en fila
+Thread-5 creada
+Thread-5 en fila
+Thread-6 creada
+Thread-6 en fila
+Thread-7 creada
+Thread-7 en fila
+Thread-8 creada
+Thread-8 en fila
+Thread-9 creada
+Thread-9 en fila
+Thread-10 creada
+Thread-10 en fila
+Thread-1
+Thread-2
+Thread-3
+Thread-4
+Thread-5
+Thread-6
+Thread-7
+Thread-8
+Thread-9
+Thread-11 creada
+Thread-11 en fila
+Thread-12 creada
+Thread-12 en fila
+Thread-13 creada
+Thread-13 en fila
+Thread-14 creada
+Thread-14 en fila
+Thread-15 creada
+Thread-15 en fila
+Thread-17 creada
+Thread-17 en fila
+Thread-16 creada
+Thread-16 en fila
+Thread-18 creada
+Thread-18 en fila
+Thread-19 creada
+Thread-19 en fila
+Thread-20 creada
+Thread-20 en fila
+Thread-4 jugo
+Thread-6 jugo
+Thread-10 jugo
+Thread-3 jugo
+Thread-2 jugo
+Thread-7 jugo
+Thread-1 jugo
+Thread-5 jugo
+Thread-8 jugo
+Thread-9 jugo
+Thread-11
+Thread-12
+Thread-13
+Thread-14
+Thread-15
+Thread-16
+Thread-17
+Thread-18
+Thread-19
+Thread-13 jugo
+True

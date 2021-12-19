@@ -15,6 +15,8 @@ fila = [0,0,0,0]
 q = queue.Queue(0)
 cola_mr = queue.Queue(10)
 
+lock = threading.Lock()
+
 cv_fila = threading.Condition()
 cv_juego = threading.Condition()
 
@@ -28,74 +30,107 @@ class persona(threading.Thread):
         time.sleep(0.1)
         print(threading.current_thread().getName(), 'creada')
 
-        # cv_fila.acquire()
-        # n_juego = 0 #rand.randint(0,3)
-        # # Vemos que juega / Se crea variable condicional para el juego
-        
-        # while len(fila[n_juego]) >= max_fila[n_juego]:
-        #     cv_fila.wait()
-        # fila[n_juego] += 1
-        # q.put(threading.currentThread())
-        # cv_fila.release()
-        # cv_juego.acquire()
+        while (not q.empty()):
+            
+            lock.acquire()
+            persona = q.get()
+            lock.release()
+            
+            persona.cv_fila.acquire()
+            n_juego = 0 #rand.randint(0,3)
+            # Vemos que juega / Se crea variable condicional para el juego
+            cola_mr.put(persona)
+            fila[n_juego] += 1
+            print(threading.current_thread().getName(), 'en fila')
 
-        # while fila[n_juego] >= capacidad[0]: # Aca juuegan los primeros capacidad personas
-        #     cv_juego.notify_all()
-        # while fila[n_juego] < capacidad[0]:
-        #     cv_juego.wait()
+            while fila[n_juego] > capacidad[n_juego]:
+                time.sleep
+            
+            persona.cv_fila.release()
+            
+            persona.cv_juego.acquire()
 
-        # for _ in range(capacidad[n_juego]):
-        #     q.get()
-        #     time.sleep(0.2) # Sleep por tiempo juego/capacidad
-        #     q.task_done()
+            # print('\tfila[n_juego] =' , fila[n_juego], '\n\t fila =', list(cola_mr.queue))
+            
+            while fila[n_juego] < capacidad[n_juego]:   # Aca juegan los primeros capacidad personas
+                persona.cv_juego.acquire()
+                persona.cv_juego.wait()
+                persona.cv_juego.release()
+                time.sleep(0.2)     # Jugando
+                cola_mr.task_done()
+                fila[n_juego] -= 1
+                print(threading.current_thread().getName(), 'jugo')
+                persona.cv_juego.release()  
+                quit()
+
+            while fila[n_juego] == capacidad[n_juego]: # Aca se completa el grupo
+                # cv_juego.notify_all()
+                for _ in range(capacidad[n_juego] - 1):
+                    jugador = cola_mr.get()
+                    print(jugador.getName())
+                    jugador.cv_juego.acquire()
+                    jugador.cv_juego.notify() 
+                    jugador.cv_juego.release()
+                # Para el ultimo jugador
+                jugador = cola_mr.get()
+                time.sleep(0.2) # Jugando
+                cola_mr.task_done()
+                fila[n_juego] -= 1
+                print(threading.current_thread().getName(), 'jugo')
+                jugador.cv_juego.release()
+
+
+                quit()
+
 
 # zc = []
-for i in range(10):
+for i in range(20):
     p = persona()
     p.start()
     q.put(p)
 time.sleep(1)
 print(q.empty())
+
 # while (not q.empty() and threading.current_thread().getName() != "MainThread"):
-while (True):
-    print(1)
-    persona = q.get()
+# while (True):
+#     print(1)
+#     persona = q.get()
 
-    persona.cv_fila.acquire()
-    n_juego = 0 #rand.randint(0,3)
-    # Vemos que juega / Se crea variable condicional para el juego
-    cola_mr.put(persona)
-    fila[n_juego] += 1
-    print(threading.current_thread().getName(), 'en fila')
+#     persona.cv_fila.acquire()
+#     n_juego = 0 #rand.randint(0,3)
+#     # Vemos que juega / Se crea variable condicional para el juego
+#     cola_mr.put(persona)
+#     fila[n_juego] += 1
+#     print(threading.current_thread().getName(), 'en fila')
 
-    # while fila[n_juego] > capacidad[n_juego]:
-    #     persona.cv_fila.wait()
+#     # while fila[n_juego] > capacidad[n_juego]:
+#     #     persona.cv_fila.wait()
     
-    persona.cv_fila.release()
+#     persona.cv_fila.release()
     
-    persona.cv_juego.acquire()
+#     persona.cv_juego.acquire()
     
-    while fila[n_juego] < capacidad[n_juego]: # Aca juegan los primeros capacidad personas
-        persona.cv_juego.wait()
-        time.sleep(0.2) # Jugando
-        cola_mr.task_done()
-        fila[n_juego] -= 1
-        print(threading.current_thread().getName(), 'jugo')
-        jugador.cv_juego.release()
+#     while fila[n_juego] < capacidad[n_juego]: # Aca juegan los primeros capacidad personas
+#         persona.cv_juego.wait()
+#         time.sleep(0.2) # Jugando
+#         cola_mr.task_done()
+#         fila[n_juego] -= 1
+#         print(threading.current_thread().getName(), 'jugo')
+#         jugador.cv_juego.release()
 
-    while fila[n_juego] == capacidad[n_juego]: # Aca se completa el grupo
-        # cv_juego.notify_all()
-        for _ in range(capacidad[n_juego] - 1):
-            jugador = cola_mr.get()
-            jugador.cv_juego.notify()
+#     while fila[n_juego] == capacidad[n_juego]: # Aca se completa el grupo
+#         # cv_juego.notify_all()
+#         for _ in range(capacidad[n_juego] - 1):
+#             jugador = cola_mr.get()
+#             jugador.cv_juego.notify()
         
-        # Para el ultimo jugador
-        jugador = cola_mr.get()
-        time.sleep(0.2) # Jugando
-        cola_mr.task_done()
-        fila[n_juego] -= 1
-        print(threading.current_thread().getName(), 'jugo')
-        jugador.cv_juego.release()
+#         # Para el ultimo jugador
+#         jugador = cola_mr.get()
+#         time.sleep(0.2) # Jugando
+#         cola_mr.task_done()
+#         fila[n_juego] -= 1
+#         print(threading.current_thread().getName(), 'jugo')
+#         jugador.cv_juego.release()
 
 
     
