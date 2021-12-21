@@ -1,0 +1,30 @@
+Persona-1, 00:18:27.926755, Tiro al Blanco, 00:18:27.926897
+Persona-2, 00:18:27.926967, Montaña Rusa, 00:18:27.927048
+Persona-4, 00:18:27.927207, Tiro al Blanco, 00:18:27.927308
+Persona-6, 00:18:27.927895, Montaña Rusa, 00:18:27.928032
+Persona-7, 00:18:27.928059, Barco Pirata, 00:18:27.928132
+Persona-10, 00:18:27.928347, Barco Pirata, 00:18:27.928428
+Persona-12, 00:18:27.928522, Barco Pirata, 00:18:27.928583
+Persona-14, 00:18:27.928671, Barco Pirata, 00:18:27.928723
+Persona-16, 00:18:27.928814, Montaña Rusa, 00:18:27.928869
+Persona-18, 00:18:27.928965, Tiro al Blanco, 00:18:27.929036
+Persona-20, 00:18:27.929134, Barco Pirata, 00:18:27.929201
+Persona-21, 00:18:27.929221, Barco Pirata, 00:18:27.929295
+Persona-23, 00:18:27.929387, Tiro al Blanco, 00:18:27.929480
+Persona-27, 00:18:27.929752, Montaña Rusa, 00:18:27.929806
+Persona-3, 00:18:27.927071, Barco Pirata, 00:18:27.927172
+Persona-5, 00:18:27.927342, Barco Pirata, 00:18:27.927731
+Persona-8, 00:18:27.928154, Casa del Terror, 00:18:27.928220
+Persona-13, 00:18:27.928602, Casa del Terror, 00:18:27.928653
+Persona-17, 00:18:27.928891, Casa del Terror, 00:18:27.928944
+Persona-22, 00:18:27.929315, Tiro al Blanco, 00:18:27.929370
+Persona-24, 00:18:27.929500, Tiro al Blanco, 00:18:27.929559
+Persona-29, 00:18:27.929906, Tiro al Blanco, 00:18:49.944298
+Persona-26, 00:18:27.929679, Tiro al Blanco, 00:18:31.930112
+Persona-11, 00:18:27.928447, Barco Pirata, 00:18:27.928499
+Persona-15, 00:18:27.928744, Barco Pirata, 00:18:27.928795
+Persona-25, 00:18:27.929589, Barco Pirata, 00:18:27.929660
+Persona-9, 00:18:27.928238, Barco Pirata, 00:18:27.928328
+Persona-28, 00:18:27.929824, Tiro al Blanco, 00:18:47.943223
+Persona-19, 00:18:27.929056, Montaña Rusa, 00:18:27.929116
+Persona-30, 00:18:27.929979, Casa del Terror, 00:18:27.930066

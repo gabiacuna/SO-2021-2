@@ -1,0 +1,65 @@
+Esperando a jugar: Thread-1
+Esperando a jugar: Thread-2
+en cola
+Esperando a jugar: Thread-3
+en cola
+en cola
+Esperando a jugar: Thread-4
+Esperando a jugar: Thread-5
+en cola
+en cola
+Esperando a jugar: Thread-7
+Esperando a jugar: Thread-6
+en cola
+Esperando a jugar: Thread-8
+Thread-1 esta en la fila
+Termino thread: Thread-1
+Termino thread: Thread-2
+Thread-2 esta en la fila
+en cola
+en cola
+Esperando a jugar: Thread-9
+Esperando a jugar: Thread-10
+Termino thread: Thread-3
+Termino thread: Thread-4
+Thread-3 esta en la fila
+en cola
+en cola
+Esperando a jugar: Thread-11
+Esperando a jugar: Thread-12
+Termino thread: Thread-5
+Termino thread: Thread-6
+Thread-4 esta en la fila
+en cola
+en cola
+Esperando a jugar: Thread-13
+Esperando a jugar: Thread-14
+Termino thread: Thread-7
+Termino thread: Thread-8
+Thread-5 esta en la fila
+en cola
+en cola
+Esperando a jugar: Thread-15
+Esperando a jugar: Thread-16
+Termino thread: Thread-9
+Termino thread: Thread-10
+Thread-6 esta en la fila
+en cola
+en cola
+Esperando a jugar: Thread-17
+Esperando a jugar: Thread-18
+Termino thread: Thread-11
+Termino thread: Thread-12
+Thread-7 esta en la fila
+en cola
+en cola
+Esperando a jugar: Thread-19
+Esperando a jugar: Thread-20
+Termino thread: Thread-13
+Termino thread: Thread-14
+Thread-8 esta en la fila
+Termino thread: Thread-15
+Termino thread: Thread-16
+Thread-9 esta en la fila
+Termino thread: Thread-17
+Termino thread: Thread-18
